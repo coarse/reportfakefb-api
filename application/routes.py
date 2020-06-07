@@ -49,19 +49,19 @@ def add_reports():
     fake_usernames = data['fakes']
 
     # Fetch or create real account
-    real_account = Real.query.filter_by(username = real_username).first()
-    if not real_account:  # No existing account found, creating new account
+    real_account = Real.query.filter_by(username=real_username).first()
+    if real_account is None:  # No existing account found, creating new account
         real_account = Real(username=real_username)
         db.session.add(real_account)
         db.session.commit()
 
     # Loop through fake usernames
     for _ in fake_usernames:
-        fake_account = Fake.query.filter_by(username = _).first()
+        fake_account = Fake.query.filter_by(username=_).first()
         if fake_account:  # Fake account already reported, continue through loop 
             continue
         
-        fake_account = Fake(username=_, real=real_account.id)
+        fake_account = Fake(username=_, real=real_account)
         db.session.add(fake_account)
         db.session.flush()
     db.session.commit()
