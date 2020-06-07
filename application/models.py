@@ -46,6 +46,6 @@ class Fake(db.Model):
             'id': self.id,
             'username': self.username,
             'real_id': self.real_id,
-            'similar': [dict(id=x.id, username=x.username) for x in self.real.fakes],
+            'similar': [dict(id=x.id, username=x.username) for x in self.real.fakes if x.id != self.id],
             'created_at': self.created
         }
