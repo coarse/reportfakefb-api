@@ -21,7 +21,7 @@ class Real(db.Model):
     def serialize(self):
         return {
             'id': self.id,
-            'fakes': [dict(id=x.id, username=x.username) for x in self.fakes],
+            'similar': [dict(id=x.id, username=x.username) for x in self.fakes],
             'created_at': self.created
         }
 
