@@ -46,5 +46,6 @@ class Fake(db.Model):
             'id': self.id,
             'username': self.username,
             'real_id': self.real_id,
+            'similar_ids': [x.id for x in self.real.fakes],
             'created_at': self.created
         }
