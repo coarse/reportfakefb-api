@@ -11,6 +11,7 @@ Reports are strictly to be entered via the [application](https://reportfakefbph.
 ### Todo
 
 - Add delete endpoint
+- Validate input for account usernames (e.g. only get the username bit if given a URL, check if alphanumeric characters or period if the input isnt a url)
 
 ### API endpoints
 
