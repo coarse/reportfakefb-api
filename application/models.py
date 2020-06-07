@@ -45,6 +45,6 @@ class Fake(db.Model):
         return {
             'id': self.id,
             'username': self.username,
-            'real_id': self.real,
+            'real_id': self.real_id,
             'created_at': self.created
         }
