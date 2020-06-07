@@ -12,7 +12,7 @@ class Real(db.Model):
     
     created = db.Column(db.DateTime(timezone=True), server_default=func.now())
 
-    fakes = db.relationship('Fake', backref='fake', lazy=True)
+    fakes = db.relationship('Fake', cascade='all,delete', backref='fake', lazy=True)
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
@@ -34,7 +34,8 @@ class Fake(db.Model):
     
     created = db.Column(db.DateTime(timezone=True), server_default=func.now())
 
-    real = db.Column(UUID(as_uuid=True), db.ForeignKey('real.id'))
+    real_id = db.Column(UUID(as_uuid=True), db.ForeignKey('real.id'))
+    real = db.relationship('Real')
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
