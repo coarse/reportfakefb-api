@@ -1,5 +1,6 @@
 from flask import request, make_response, jsonify
 from flask import current_app as app
+from flask_cors import cross_origin
 from .models import db, Real, Fake
 from uuid import UUID
 
@@ -14,6 +15,7 @@ def is_valid_uuid(uuid_to_test, version=4):
 
 
 @app.route('/reports', methods=['GET'])
+@cross_origin()
 def fetch_reports():
     '''Return all fake accounts from the databse'''
     accounts = Fake.query.order_by(Fake.created.desc()).all()
@@ -21,6 +23,7 @@ def fetch_reports():
 
 
 @app.route('/reports/<string:_id>', methods=['GET'])
+@cross_origin()
 def fetch_report(_id):
     '''Return data from real account or fake account'''
     account = None
