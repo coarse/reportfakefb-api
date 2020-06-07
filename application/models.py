@@ -8,7 +8,7 @@ class Real(db.Model):
     """Data model for real accounts."""
 
     id = db.Column(UUID(as_uuid=True), default=uuid.uuid4, primary_key=True)
-    username = db.Column(db.String(80), index=True, unique=True,nullable=False)
+    username = db.Column(db.String(80), index=True, unique=True, nullable=False)
     
     created = db.Column(db.DateTime(timezone=True), server_default=func.now())
 
@@ -30,7 +30,7 @@ class Fake(db.Model):
     """Data model for fake accounts."""
 
     id = db.Column(UUID(as_uuid=True), default=uuid.uuid4, primary_key=True)
-    username = db.Column(db.String(80), index=True, unique=True,nullable=False)
+    username = db.Column(db.String(80), index=True, unique=True, nullable=False)
     
     created = db.Column(db.DateTime(timezone=True), server_default=func.now())
 
