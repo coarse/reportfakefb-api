@@ -53,7 +53,7 @@ def fetch_report(_id):
     return jsonify(account.serialize)
 
 @app.route('/reports', methods=['POST'])
-@cross_origin()
+# @cross_origin()
 def add_reports():
     '''Add a report to the database'''
     data = request.get_json()
