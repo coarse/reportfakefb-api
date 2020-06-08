@@ -2,6 +2,7 @@ from flask import request, make_response, jsonify, send_from_directory, render_t
 from flask import current_app as app
 from flask_cors import cross_origin
 from .models import db, Real, Fake
+from .constants import username_regex
 from uuid import UUID
 import re
 
@@ -53,12 +54,10 @@ def fetch_report(_id):
     return jsonify(account.serialize)
 
 @app.route('/reports', methods=['POST'])
-@cross_origin()
+# @cross_origin()
 def add_reports():
     '''Add a report to the database'''
     data = request.get_json()
-
-    username_regex = r'^(?:(?:https?:\/\/)?(?:(?:m|www)\.)?(?:(?:facebook|fb)\.com\/))?([.a-zA-Z0-9]+)(?:\/.*)?$'
 
     # validate real username
     real_username = ''

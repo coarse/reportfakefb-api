@@ -1,0 +1,1 @@
+username_regex = r'^(?:(?:https?:\/\/)?(?:(?:m|www)\.)?(?:(?:facebook|fb)\.com\/))?([.a-zA-Z0-9]+)(?:\/.*)?$'
