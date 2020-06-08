@@ -58,7 +58,7 @@ def add_reports():
     '''Add a report to the database'''
     data = request.get_json()
 
-    username_regex = r'^(?:(?:https?:\/\/)?(?:m\.)?(?:(?:facebook|fb)\.com\/))?([.a-zA-Z0-9]+)(?:\/.*)?$'
+    username_regex = r'^(?:(?:https?:\/\/)?(?:(?:m|www)\.)?(?:(?:facebook|fb)\.com\/))?([.a-zA-Z0-9]+)(?:\/.*)?$'
 
     # validate real username
     real_username = ''
