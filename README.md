@@ -18,3 +18,6 @@ Reports are strictly to be entered via the [application](https://reportfakefbph.
 - GET /reports (Fetch fake accounts)
 - GET /reports/<UUID/username> (Fetch real/fake account information)
 - POST /reports/add (Report fake accounts linked to a genuine account)
+
+### Other Resources
+ - [React App](https://github.com/coarse/reportfakefb-app)
