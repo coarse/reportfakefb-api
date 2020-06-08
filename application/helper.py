@@ -42,3 +42,13 @@ def clean_data():
             db.session.delete(account)
         
         db.session.commit()
+    
+    empty_fake_accounts = Fake.query.filter_by(username='').all()
+    for account in empty_fake_accounts:
+        db.session.delete(account)
+        db.session.commit()
+    
+    empty_real_accounts = Real.query.filter_by(username='').all()
+    for account in empty_real_accounts:
+        db.session.delete(account)
+        db.session.commit()
