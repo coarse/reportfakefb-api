@@ -3,6 +3,7 @@ from flask import current_app as app
 from flask_cors import cross_origin
 from .models import db, Real, Fake
 from uuid import UUID
+import re
 
 
 @app.route('/', defaults={'path': ''})
@@ -57,8 +58,45 @@ def add_reports():
     '''Add a report to the database'''
     data = request.get_json()
 
-    real_username = data['real']
-    fake_usernames = data['fakes']
+    username_regex = r'^(?:(?:https?:\/\/)?(?:m\.)?(?:(?:facebook|fb)\.com\/))?([.a-zA-Z0-9]+)(?:\/.*)?$'
+
+    # validate real username
+    real_username = ''
+    username_search = re.search(username_regex, data['real'], re.IGNORECASE)
+    if username_search:
+        real_username = username_search.group(1)
+    
+    if real_username == '':
+        # no valid username, return error
+        return make_response(jsonify({
+            'message': 'Real account username is invalid'
+        }), 400)
+
+    # validate fake usernames
+    valid_fake_usernames = []
+    for fake_username_text in data['fakes']:
+        username_search = re.search(username_regex, fake_username_text, re.IGNORECASE)
+        if username_search:
+            valid_fake_usernames.append(username_search.group(1))
+    
+    if len(valid_fake_usernames) < 1:
+        # no valid usernames, return error
+        return make_response(jsonify({
+            'message': 'No valid usernames were submitted'
+        }), 400)
+
+    # check if all valid fake usernames are in database
+    fake_usernames = []
+    for valid_fake_username in valid_fake_usernames:
+        fake_account = Fake.query.filter_by(username=valid_fake_username).first()
+        if not fake_account:
+            fake_usernames.append(valid_fake_username)
+    
+    if len(fake_usernames) < 1:
+        # all valid usernames have already been logged into the system, return error
+        return make_response(jsonify({
+            'message': 'All fake accounts submitted are already in the system'
+        }), 400)
 
     # Fetch or create real account
     real_account = Real.query.filter_by(username=real_username).first()
@@ -69,10 +107,6 @@ def add_reports():
 
     # Loop through fake usernames
     for _ in fake_usernames:
-        fake_account = Fake.query.filter_by(username=_).first()
-        if fake_account:  # Fake account already reported, continue through loop 
-            continue
-        
         fake_account = Fake(username=_, real=real_account)
         db.session.add(fake_account)
         db.session.flush()
