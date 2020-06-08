@@ -1,8 +1,19 @@
-from flask import request, make_response, jsonify
+from flask import request, make_response, jsonify, send_from_directory, render_template
 from flask import current_app as app
 from flask_cors import cross_origin
 from .models import db, Real, Fake
 from uuid import UUID
+
+
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def index(path):
+    _exceptions = ['manifest.json', 'favicon.ico', 'logo192.png', 'logo512.png']
+    print(path in _exceptions)
+    if path in _exceptions:
+        return send_from_directory('./public', path)
+
+    return render_template('index.html')
 
 
 def is_valid_uuid(uuid_to_test, version=4):
@@ -41,6 +52,7 @@ def fetch_report(_id):
     return jsonify(account.serialize)
 
 @app.route('/reports', methods=['POST'])
+@cross_origin()
 def add_reports():
     '''Add a report to the database'''
     data = request.get_json()
